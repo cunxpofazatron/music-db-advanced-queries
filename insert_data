@@ -1,0 +1,117 @@
+-- Заполнение таблицы Genre
+INSERT INTO Genre (name) VALUES
+('Rock'),
+('Pop'),
+('Hip Hop'),
+('Jazz'),
+('Electronic');
+
+-- Заполнение таблицы Artist
+INSERT INTO Artist (name) VALUES
+('The Beatles'),
+('Michael Jackson'),
+('Eminem'),
+('Billie Eilish'),
+('Queen'),
+('Radiohead'),
+('Coldplay'),
+('Adele');
+
+-- Заполнение таблицы Artist_Genre (связь исполнителей с жанрами)
+INSERT INTO Artist_Genre (artist_id, genre_id) VALUES
+(1, 1), -- The Beatles - Rock
+(1, 2), -- The Beatles - Pop
+(2, 2), -- Michael Jackson - Pop
+(3, 3), -- Eminem - Hip Hop
+(4, 2), -- Billie Eilish - Pop
+(4, 5), -- Billie Eilish - Electronic
+(5, 1), -- Queen - Rock
+(6, 1), -- Radiohead - Rock
+(6, 5), -- Radiohead - Electronic
+(7, 1), -- Coldplay - Rock
+(7, 2), -- Coldplay - Pop
+(8, 2); -- Adele - Pop
+
+-- Заполнение таблицы Album
+INSERT INTO Album (title, release_year) VALUES
+('Abbey Road', 1969),
+('Thriller', 1982),
+('The Marshall Mathers LP', 2000),
+('When We All Fall Asleep, Where Do We Go?', 2019),
+('A Night at the Opera', 1975),
+('OK Computer', 1997),
+('Parachutes', 2000),
+('25', 2015),
+('Harry''s House', 2022),
+('Future Nostalgia', 2020);
+
+-- Заполнение таблицы Album_Artist (связь альбомов с исполнителями)
+INSERT INTO Album_Artist (album_id, artist_id) VALUES
+(1, 1), -- Abbey Road - The Beatles
+(2, 2), -- Thriller - Michael Jackson
+(3, 3), -- The Marshall Mathers LP - Eminem
+(4, 4), -- When We All Fall Asleep... - Billie Eilish
+(5, 5), -- A Night at the Opera - Queen
+(6, 6), -- OK Computer - Radiohead
+(7, 7), -- Parachutes - Coldplay
+(8, 8), -- 25 - Adele
+(9, 4), -- Harry's House - Billie Eilish (новый альбом)
+(10, 8); -- Future Nostalgia - Adele (представим, что это альбом Adele)
+
+-- Заполнение таблицы Track
+INSERT INTO Track (title, duration, album_id) VALUES
+('Come Together', 259, 1),
+('Something', 182, 1),
+('Thriller', 357, 2),
+('Beat It', 258, 2),
+('The Real Slim Shady', 284, 3),
+('Stan', 404, 3),
+('bad guy', 194, 4),
+('when the party''s over', 196, 4),
+('Bohemian Rhapsody', 354, 5),
+('You''re My Best Friend', 172, 5),
+('Paranoid Android', 387, 6),
+('Karma Police', 262, 6),
+('Yellow', 266, 7),
+('Trouble', 277, 7),
+('Hello', 295, 8),
+('When We Were Young', 291, 8),
+('My Universe', 228, 9),
+('My Love', 245, 9),
+('My Future', 203, 10),
+('Don''t Start Now', 183, 10),
+('My Favorite Track', 210, 4),
+('My Way', 275, 3),
+('Not in Compilation', 200, 1);
+
+-- Заполнение таблицы Compilation
+INSERT INTO Compilation (title, release_year) VALUES
+('Best of 2019', 2020),
+('Rock Classics', 2018),
+('Pop Hits 2020', 2021),
+('Hip Hop Collection', 2019),
+('Chart Toppers 2018', 2018),
+('Summer Hits 2020', 2020),
+('Golden Oldies', 2017),
+('Modern Favorites', 2022);
+
+-- Заполнение таблицы Compilation_Track (связь сборников с треками)
+INSERT INTO Compilation_Track (compilation_id, track_id) VALUES
+(1, 7),  -- Best of 2019 - bad guy
+(1, 8),  -- Best of 2019 - when the party's over
+(2, 1),  -- Rock Classics - Come Together
+(2, 9),  -- Rock Classics - Bohemian Rhapsody
+(2, 11), -- Rock Classics - Paranoid Android
+(3, 15), -- Pop Hits 2020 - Hello
+(3, 20), -- Pop Hits 2020 - Don't Start Now
+(4, 5),  -- Hip Hop Collection - The Real Slim Shady
+(4, 6),  -- Hip Hop Collection - Stan
+(5, 2),  -- Chart Toppers 2018 - Something
+(5, 3),  -- Chart Toppers 2018 - Thriller
+(6, 7),  -- Summer Hits 2020 - bad guy
+(6, 20), -- Summer Hits 2020 - Don't Start Now
+(7, 1),  -- Golden Oldies - Come Together
+(7, 2),  -- Golden Oldies - Something
+(8, 7),  -- Modern Favorites - bad guy
+(8, 15), -- Modern Favorites - Hello
+(8, 18); -- Modern Favorites - My Love
