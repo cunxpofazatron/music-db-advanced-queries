@@ -1,0 +1,54 @@
+-- 1. Genre
+CREATE TABLE Genre (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
+
+-- 2. Artist
+CREATE TABLE Artist (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+-- 3. Связь Artist_Genre
+CREATE TABLE Artist_Genre (
+    artist_id INTEGER NOT NULL REFERENCES Artist(id) ON DELETE CASCADE,
+    genre_id INTEGER NOT NULL REFERENCES Genre(id) ON DELETE CASCADE,
+    PRIMARY KEY (artist_id, genre_id)
+);
+
+-- 4. Album
+CREATE TABLE Album (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    release_year INTEGER NOT NULL CHECK (release_year >= 1900)
+);
+
+-- 5. Связь Album_Artist
+CREATE TABLE Album_Artist (
+    album_id INTEGER NOT NULL REFERENCES Album(id) ON DELETE CASCADE,
+    artist_id INTEGER NOT NULL REFERENCES Artist(id) ON DELETE CASCADE,
+    PRIMARY KEY (album_id, artist_id)
+);
+
+-- 6. Track
+CREATE TABLE Track (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    duration INTEGER NOT NULL CHECK (duration > 0), -- в секундах
+    album_id INTEGER NOT NULL REFERENCES Album(id) ON DELETE CASCADE
+);
+
+-- 7. Compilation
+CREATE TABLE Compilation (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    release_year INTEGER NOT NULL CHECK (release_year >= 1900)
+);
+
+-- 8. Связь Compilation_Track
+CREATE TABLE Compilation_Track (
+    compilation_id INTEGER NOT NULL REFERENCES Compilation(id) ON DELETE CASCADE,
+    track_id INTEGER NOT NULL REFERENCES Track(id) ON DELETE CASCADE,
+    PRIMARY KEY (compilation_id, track_id)
+);
