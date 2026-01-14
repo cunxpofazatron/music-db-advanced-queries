@@ -1,9 +1,13 @@
 -- Задание 2
+-- =========================
 
 -- 1. Название и продолжительность самого длительного трека
 SELECT title, duration
 FROM Track
-WHERE duration = (SELECT MAX(duration) FROM Track);
+WHERE duration = (
+    SELECT MAX(duration)
+    FROM Track
+);
 
 -- 2. Название треков, продолжительность которых не менее 3,5 минут (210 секунд)
 SELECT title, duration
@@ -21,14 +25,20 @@ FROM Artist
 WHERE name NOT LIKE '% %';
 
 -- 5. Название треков, которые содержат слово «мой» или «my»
+-- Поиск именно отдельных слов, а не частей строк
 SELECT title
 FROM Track
-WHERE LOWER(title) LIKE '%мой%' OR LOWER(title) LIKE '%my%';
+WHERE string_to_array(lower(title), ' ') && ARRAY['my', 'мой'];
 
+
+
+-- =========================
 -- Задание 3
+-- =========================
 
 -- 1. Количество исполнителей в каждом жанре
-SELECT g.name AS genre_name, COUNT(ag.artist_id) AS artist_count
+SELECT g.name AS genre_name,
+       COUNT(ag.artist_id) AS artist_count
 FROM Genre g
 LEFT JOIN Artist_Genre ag ON g.id = ag.genre_id
 GROUP BY g.id, g.name
@@ -41,7 +51,8 @@ JOIN Album a ON t.album_id = a.id
 WHERE a.release_year BETWEEN 2019 AND 2020;
 
 -- 3. Средняя продолжительность треков по каждому альбому
-SELECT a.title AS album_title, ROUND(AVG(t.duration), 2) AS avg_duration
+SELECT a.title AS album_title,
+       ROUND(AVG(t.duration), 2) AS avg_duration
 FROM Album a
 JOIN Track t ON a.id = t.album_id
 GROUP BY a.id, a.title
@@ -51,7 +62,7 @@ ORDER BY avg_duration DESC;
 SELECT DISTINCT ar.name AS artist_name
 FROM Artist ar
 WHERE ar.id NOT IN (
-    SELECT DISTINCT aa.artist_id
+    SELECT aa.artist_id
     FROM Album_Artist aa
     JOIN Album al ON aa.album_id = al.id
     WHERE al.release_year = 2020
@@ -69,10 +80,14 @@ JOIN Artist ar ON aa.artist_id = ar.id
 WHERE ar.name = 'Billie Eilish'
 ORDER BY c.title;
 
+
+
+-- =========================
 -- Задание 4 (необязательное)
+-- =========================
 
 -- 1. Названия альбомов, в которых присутствуют исполнители более чем одного жанра
-SELECT a.title AS album_title, ar.name AS artist_name
+SELECT DISTINCT a.title AS album_title
 FROM Album a
 JOIN Album_Artist aa ON a.id = aa.album_id
 JOIN Artist ar ON aa.artist_id = ar.id
@@ -88,18 +103,25 @@ ORDER BY a.title;
 SELECT t.title AS track_not_in_compilation
 FROM Track t
 LEFT JOIN Compilation_Track ct ON t.id = ct.track_id
-WHERE ct.track_id IS NULL;
+WHERE ct.track_id IS NULL
+ORDER BY t.title;
 
 -- 3. Исполнитель или исполнители, написавшие самый короткий по продолжительности трек
-SELECT ar.name AS artist_name, t.title AS track_title, t.duration
+SELECT DISTINCT ar.name AS artist_name,
+       t.title AS track_title,
+       t.duration
 FROM Artist ar
 JOIN Album_Artist aa ON ar.id = aa.artist_id
 JOIN Track t ON aa.album_id = t.album_id
-WHERE t.duration = (SELECT MIN(duration) FROM Track)
+WHERE t.duration = (
+    SELECT MIN(duration)
+    FROM Track
+)
 ORDER BY ar.name;
 
 -- 4. Названия альбомов, содержащих наименьшее количество треков
-SELECT a.title AS album_title, COUNT(t.id) AS track_count
+SELECT a.title AS album_title,
+       COUNT(t.id) AS track_count
 FROM Album a
 JOIN Track t ON a.id = t.album_id
 GROUP BY a.id, a.title
